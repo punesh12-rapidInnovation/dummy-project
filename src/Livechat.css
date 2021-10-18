@@ -1,0 +1,114 @@
+.chat-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 50%;
+	margin: 2% auto;
+	border: 1px solid blue;
+	border-radius: 20px;
+	background: linear-gradient(
+		90deg,
+		rgba(239, 8, 150, 0.5) 6.9%,
+		rgba(112, 7, 255, 0.5) 55.31%,
+		rgba(0, 200, 255, 0.5) 107.28%
+	);
+	/* min-height: 50vh; */
+}
+
+.chat-header {
+	width: 100%;
+	display: flex;
+	border-bottom: 1px solid white;
+	text-align: left;
+	padding-left: 20px;
+	font-size: 28px;
+	font-weight: bold;
+	color: black;
+}
+
+.input-message {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border-top: 1px solid white;
+	display: flex;
+}
+
+button {
+	background: #18deae;
+	width: 20%;
+	margin: 0;
+	border-bottom-right-radius: 20px;
+	border: none;
+	border-left: 1px solid white;
+}
+
+input {
+	width: 80%;
+	background-color: transparent;
+	outline: none;
+	border: none;
+	padding: 0 20px;
+	font-size: 16px;
+}
+.chat-body {
+	/* background-color: lightgrey; */
+	padding: 0 10px;
+	display: flex;
+	flex-direction: column;
+	width: 95%;
+	margin: 10px;
+	max-height: 50vh;
+	min-height: 50vh;
+	overflow-y: auto;
+}
+
+.chat-receive {
+	background-color: lightgray;
+	border-radius: 0 20px 20px 20px;
+	width: 50%;
+	height: auto;
+	min-height: 50px;
+	color: black;
+	/* z-index: 10; */
+	box-shadow: black 5px 5px 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: left;
+	padding: 5px 10px;
+	box-sizing: border-box;
+	margin: 10px 0;
+}
+.chat-send {
+	align-self: flex-end;
+	background: linear-gradient(
+		92.8deg,
+		rgba(30, 232, 183, 0.8) 2.13%,
+		rgba(172, 51, 191, 0.4) 102.29%
+	);
+	border-radius: 20px 20px 0 20px;
+	width: 50%;
+	min-height: 50px;
+	height: auto;
+	/* margin-right: 50px; */
+	color: black;
+	z-index: 10;
+	box-shadow: rgb(20, 18, 18) -5px -5px 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: left;
+	padding: 5px 10px;
+	margin: 10px 0;
+	box-sizing: border-box;
+}
+/* .chat-send {
+	align-self: flex-end;
+	background-color: blue;
+	border-radius: 20px 20px 0 20px;
+	width: 50%;
+	height: 50px;
+	margin-left: 10px;
+} */

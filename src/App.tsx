@@ -7,6 +7,7 @@ import Web3 from 'web3';
 import detectEthereumProvider from '@metamask/detect-provider';
 
 import { relative } from 'path';
+import LiveChat from './Chat';
 
 const Button = styled.button`
   background: black;
@@ -39,42 +40,55 @@ function App() {
 
       const chainId = await web3.eth.getChainId();
       const balance = await web3.eth.getBalance(accounts[0]);
-      console.log('baalnce', web3.utils.fromWei(balance, 'ether'));
+      const baanceInEther = web3.utils.fromWei(balance, 'ether')
+      // console.log('baalnce', web3.utils.fromWei(balance, 'ether'));
 
-      setWalletBalance(web3.utils.fromWei(balance, 'ether'))
+      setWalletBalance(baanceInEther)
       setwalletAddress(accounts[0])
       setWalletConnected("true")
 
       localStorage.setItem('chainId', chainId.toString());
       localStorage.setItem('walletConnected', 'true');
       localStorage.setItem('walletAddress', accounts[0]);
-      localStorage.setItem('walletBalance', balance);
+      localStorage.setItem('walletBalance', baanceInEther);
     } catch (error) {
       console.log('plase connect to metamask');
     }
   };
 
+
+
   useEffect(() => {
-    const connected = localStorage.getItem('walletConnected')
-    {
-      const address = localStorage.getItem('walletAddress')
-      //@ts-ignore
-      setwalletAddress(address)
+    const address = localStorage.getItem('walletAddress')
+    //@ts-ignore
+    setwalletAddress(address)
 
-      const balance = localStorage.getItem('walletBalance')
-      //@ts-ignore
-      setwalletAddress(balance)
+    setWalletConnected("true")
 
-      setWalletConnected("true")
-
-    }
   }, [localStorage.getItem('walletConnected')])
 
-  const disonnectWallet = () => {
+  useEffect(() => {
+    const getBalance = async () => {
 
+      try {
+        let web3 = new Web3(Web3.givenProvider);
+        const balance = await web3.eth.getBalance(walletAddress)
+        const bal = web3.utils.fromWei(balance, "ether")
+        setWalletBalance(bal.toString());
+        console.log('bal', balance, walletAddress);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getBalance()
+  }, [walletAddress, walletConnected])
+
+  const disonnectWallet = () => {
     localStorage.clear()
     localStorage.setItem('walletConnected', 'false');
     setWalletConnected("false")
+    setwalletAddress("")
+    setWalletBalance("")
   }
 
   return (
@@ -95,7 +109,6 @@ function App() {
 
         {
           walletConnected == "true" ?
-
             <Button
               onClick={() =>
                 disonnectWallet()}
@@ -126,10 +139,7 @@ function App() {
           />
         </PopupModal>
       </header>
-
-
-      <div>
-      </div>
+      <LiveChat />
     </div >
   );
 }
