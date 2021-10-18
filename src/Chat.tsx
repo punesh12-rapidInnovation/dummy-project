@@ -29,33 +29,35 @@ const LiveChat = () => {
     const divRef = React.useRef();
 
     const BASE_URL = 'http://diceroll.rapidinnovation.tech/api/v1/rooms/message'
-    const api = axios.create({
-        baseURL: BASE_URL,
-        headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-        },
-
-    });
 
 
     const sendTOAPI = async () => {
 
-        const data = {
-            'username': 'punesh',
-            'content': 'hello i am punesh'
+        const data = JSON.stringify(
+            {
+                'username': 'punesh',
+                'content': 'Hello there'
+            });
+
+
+        const config: any = {
+            method: 'post',
+            url: BASE_URL,
+            headers: {
+                'content-Type': 'application/json'
+            },
+            data: data
         }
-        api.post(BASE_URL, data)
-            .then(res => console.log('res', res))
-            .catch(err => console.log(err));
-        // const requestOptions = {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify(data)
-        // };
-        // fetch(BASE_URL, requestOptions)
-        //     .then(response => response.json())
-        //     .then(data => console.log('data', data));
+
+        axios(config)
+            .then(function (res) {
+                console.log(JSON.stringify(res));
+            })
+            .catch(function (err) {
+                console.log(err);
+
+            })
+
 
 
     }
