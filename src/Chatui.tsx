@@ -22,13 +22,11 @@ display: flex;
 flex-direction:column;
 justify-content:space-between;
 align-items: flex-start;
+display: relative;
 
 >*{
     color: white;
 }
-
-
-
 `
 
 const GlobalChatSection = styled.div`
@@ -41,10 +39,6 @@ width: 100%;
 display: flex;
 justify-content:center;
 align-items: center;
-
-
-
-
 `
 
 const Input = styled.input`
@@ -97,21 +91,41 @@ border-radius: 10px;
 padding: 10px;
 display: flex;
 width: 73%;
+
 margin: 10px 0;
 align-self: flex-start;
 text-align: left;
+
 `
 const Ownmsg = styled.div`
 background: linear-gradient(92.8deg, rgba(30, 232, 183, 0.8) 2.13%, rgba(172, 51, 191, 0.4) 102.29%);
-
 border-radius: 10px;
 padding: 10px;
 display: flex;
+height: auto;
 width: 73%;
 margin: 10px 0;
 align-self: flex-end;
 text-align: left;
+word-wrap: break-word;
+
+>*{
+    word-wrap: break-word;
+
+
+}
 `
+
+const Button = styled.div`
+position: absolute;
+bottom: 10px;
+right: 15px;
+padding: 8px 10px;
+border-radius: 12px;
+cursor: pointer;
+`
+
+
 
 const Chatui = (props: any) => {
 
@@ -173,6 +187,8 @@ const Chatui = (props: any) => {
             .catch(function (err) {
                 console.log(err);
             })
+        
+        
 
     }
 
@@ -212,7 +228,7 @@ const Chatui = (props: any) => {
         <GlobalChatSection>
             <Box style={{ height: '75%', width: '90%', maxWidth: '1100px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Box style={{ height: '75%', width: '45%', marginRight: '20px' }}></Box>
-                <ChatBox style={{ height: '75%', width: '45%' }}>
+                <ChatBox style={{ height: '75%', width: '45%',position:'relative' }}>
 
 
                     <ChatTopdiv><div style={{ textAlign: 'left' }}> <h3 style={{ fontSize: '14px' }}>GLOBAL CHAT</h3>
@@ -231,11 +247,10 @@ const Chatui = (props: any) => {
                     <Input
                         onChange={handleInputMessage}
                         style={{ width: '100%', height: '15%' }} type="text" placeholder="Type message..." />
-                    <button
+                    <Button
                         style={{ background: "green" }}
-                        disabled={walletAddress === '' || inputMessage === ''}
-                        onClick={() => { sendTOAPI(); setinputMessage('') }}
-                    >Send</button>
+                        onClick={() => { sendTOAPI(); setinputMessage('')  }}
+                    >Send</Button>
 
 
                 </ChatBox>
