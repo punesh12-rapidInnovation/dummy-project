@@ -26,7 +26,7 @@ const Button = styled.button`
 
 function App() {
 
-  const [walletConnected, setWalletConnected] = useState('')
+  const [walletConnected, setWalletConnected] = useState(false)
   const [toggleModal, setToggleModal] = useState(false)
   const [walletBalance, setWalletBalance] = useState("")
   const [walletAddress, setwalletAddress] = useState("")
@@ -45,7 +45,7 @@ function App() {
 
       setWalletBalance(baanceInEther)
       setwalletAddress(accounts[0])
-      setWalletConnected("true")
+      setWalletConnected(true)
 
       localStorage.setItem('chainId', chainId.toString());
       localStorage.setItem('walletConnected', 'true');
@@ -60,35 +60,44 @@ function App() {
 
   useEffect(() => {
     const address = localStorage.getItem('walletAddress')
-    //@ts-ignore
-    setwalletAddress(address)
-
-    setWalletConnected("true")
-
+    const balance = localStorage.getItem('walletBalance')
+    if (!!address) {
+      //@ts-ignore
+      setwalletAddress(address)
+      //@ts-ignore
+      setWalletBalance(balance)
+      setWalletConnected(true)
+    }
   }, [localStorage.getItem('walletConnected')])
 
   useEffect(() => {
     const getBalance = async () => {
 
       try {
-        let web3 = new Web3(Web3.givenProvider);
-        const balance = await web3.eth.getBalance(walletAddress)
-        const bal = web3.utils.fromWei(balance, "ether")
-        setWalletBalance(bal.toString());
-        console.log('bal', balance, walletAddress);
+        if (walletAddress) {
+          let web3 = new Web3(Web3.givenProvider);
+          const balance = await web3.eth.getBalance(walletAddress)
+          const bal = web3.utils.fromWei(balance, "ether")
+          setWalletBalance(bal.toString());
+          console.log('bal', balance, walletAddress);
+        }
       } catch (error) {
         console.log(error);
       }
     }
     getBalance()
-  }, [walletAddress, walletConnected])
+  }, [])
 
   const disonnectWallet = () => {
-    localStorage.clear()
-    localStorage.setItem('walletConnected', 'false');
-    setWalletConnected("false")
+    setWalletConnected(false)
+    // localStorage.setItem('walletConnected', 'false');
+    localStorage.removeItem('walletConnected');
+    localStorage.removeItem('walletBalance');
+    localStorage.removeItem('walletAddress');
+    localStorage.removeItem('chainId');
+
     setwalletAddress("")
-    setWalletBalance("")
+    // setWalletBalance("")
   }
 
   return (
@@ -96,9 +105,8 @@ function App() {
 
       <header className="App-header">
         {
-          walletConnected == "true" ?
+          walletConnected ?
             <>
-
               <h6>Wallet address: {walletAddress}</h6>
               <h6>Wallet Balance: {walletBalance}</h6>
             </>
@@ -108,10 +116,9 @@ function App() {
         <br />
 
         {
-          walletConnected == "true" ?
+          walletConnected ?
             <Button
-              onClick={() =>
-                disonnectWallet()}
+              onClick={() => disonnectWallet()}
             >Disconnect</Button>
             :
             <Button
@@ -139,7 +146,7 @@ function App() {
           />
         </PopupModal>
       </header>
-      <LiveChat />
+      <LiveChat walletAddress={walletAddress} />
     </div >
   );
 }
