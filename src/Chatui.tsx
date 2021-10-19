@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Chatsection from './Chatsection.png';
 import threedot from './threedot.svg';
+
+import { io } from "socket.io-client";
+import axios from 'axios';
+
 
 
 
@@ -109,37 +113,134 @@ align-self: flex-end;
 text-align: left;
 `
 
+const Chatui = (props: any) => {
+
+
+    const { walletAddress, connectWallet, setToggleModal, toggleModal } = props
+
+    const [messages, setMessages] = useState<any>([])
+    const [inputMessage, setinputMessage] = useState('')
+
+
+
+
+    const BASE_URL = 'https://diceroll.rapidinnovation.tech/api/message'
+
+    useEffect(() => {
+        const socket = io('wss://diceroll.rapidinnovation.tech');
+        try {
+            socket.on('connection', () => {
+                // Replace event name with connection event name
+                console.log('websocket connected');
+            });
+            // socket.emit('message');
+            socket.on('message', (data) => {
+                console.log('data', data);
+                const updatedData = [...messages, data]
+                setMessages(updatedData)
+
+
+            });
+        } catch (err) {
+            console.log('err', err);
+
+        }
+        return () => {
+            socket.disconnect();
+        };
+    }, [messages]);
+
+    const sendTOAPI = async () => {
+        const data =
+        {
+            'username': walletAddress,
+            'content': inputMessage
+        };
+        const config: any = {
+            method: 'post',
+            url: BASE_URL,
+            headers: {
+                'content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            data: data
+        }
+
+        axios(config)
+            .then(function (res) {
+                console.log('response', res);
+            })
+            .catch(function (err) {
+                console.log(err);
+            })
+
+    }
+
+
+    const handleInputMessage = (e: any) => {
+        const { value } = e.target
+        setinputMessage(value)
+    }
+
+    const renderchat = () => {
+        return messages.map((m: any) => (
+            m.username === walletAddress ?
+                <Ownmsg
+                >
+                    <h1 style={{ fontSize: '11px' }}>
+                        {m.content}
+                    </h1>
+                </Ownmsg>
+
+                :
+                <Messagediv>
+                    <h1 style={{ fontSize: '11px' }}>
+                        {m.content}
+                    </h1>
+                </Messagediv>
+
+
+        ))
+    }
 
 
 
 
 
-function Chatui() {
-    const messages = ['Phantompain and is about bitcoin ,bitcoin cash,blackchain,blockchaininfo,blue','essentially a digital letter of transactions that is duplicated and distributed across the ocean', 'how abou this ','phantom pain and is aboyt bitcoin bitcoin cash bloack and blockchain info ,blue']
+    // const messages = ['Phantompain and is about bitcoin ,bitcoin cash,blackchain,blockchaininfo,blue', 'essentially a digital letter of transactions that is duplicated and distributed across the ocean', 'how abou this ', 'phantom pain and is aboyt bitcoin bitcoin cash bloack and blockchain info ,blue']
     return (
         <GlobalChatSection>
-            <Box style={{height:'75%',width:'90%',maxWidth:'1100px',display:'flex',justifyContent:'center',alignItems:'center'}}>
-            <Box style={{height:'75%',width:'45%',marginRight:'20px'}}></Box>
-            <ChatBox style={{ height: '75%', width: '45%' }}>
-                    <ChatTopdiv><div style={{textAlign:'left'}}> <h3 style={{fontSize:'14px'}}>GLOBAL CHAT</h3>
+            <Box style={{ height: '75%', width: '90%', maxWidth: '1100px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Box style={{ height: '75%', width: '45%', marginRight: '20px' }}></Box>
+                <ChatBox style={{ height: '75%', width: '45%' }}>
+
+
+                    <ChatTopdiv><div style={{ textAlign: 'left' }}> <h3 style={{ fontSize: '14px' }}>GLOBAL CHAT</h3>
                         <h5 style={{ fontSize: '11px', color: '#18DEAE' }}>28 playing</h5></div> <img src={threedot} alt="" /></ChatTopdiv>
                     <ChatMiddlediv>
-                        <Messagediv><h1 style={{fontSize:'11px'}}>essentially a digital letter of transactions that is duplicated and distributed across the ocean</h1></Messagediv>
-                        <Messagediv><h1 style={{fontSize:'11px'}}>essentially a digital letter of transactions that is duplicated and distributed across the ocean</h1></Messagediv>
-                        <Ownmsg><h1 style={{fontSize:'11px'}}>essentially a digital letter of transactions that is duplicated and distributed across the ocean</h1></Ownmsg>
-                        <Ownmsg><h1 style={{ fontSize: '11px' }}>essentially a digital letter of transactions that is duplicated and distributed across the ocean</h1></Ownmsg>
+                        {renderchat()}
+
+                        {/* 
                         <Messagediv><h1 style={{ fontSize: '11px' }}>essentially a digital letter of transactions that is duplicated and distributed across the ocean</h1></Messagediv>
+                        <Messagediv><h1 style={{ fontSize: '11px' }}>essentially a digital letter of transactions that is duplicated and distributed across the ocean</h1></Messagediv>
+                        <Ownmsg><h1 style={{ fontSize: '11px' }}>essentially a digital letter of transactions that is duplicated and distributed across the ocean</h1></Ownmsg>
+                        <Ownmsg><h1 style={{ fontSize: '11px' }}>essentially a digital letter of transactions that is duplicated and distributed across the ocean</h1></Ownmsg>
+                        <Messagediv><h1 style={{ fontSize: '11px' }}>essentially a digital letter of transactions that is duplicated and distributed across the ocean</h1></Messagediv> */}
 
-
-                        
                     </ChatMiddlediv>
-                    <Input style={{ width: '100%',height:'15%' }} type="text" placeholder="Type message..." />
-            </ChatBox>
+                    <Input
+                        onChange={handleInputMessage}
+                        style={{ width: '100%', height: '15%' }} type="text" placeholder="Type message..." />
+                    <button
+                        style={{ background: "green" }}
+                        disabled={walletAddress === '' || inputMessage === ''}
+                        onClick={() => { sendTOAPI(); setinputMessage('') }}
+                    >Send</button>
+
+
+                </ChatBox>
             </Box>
-        
-            
-            
-        </GlobalChatSection>
+        </GlobalChatSection >
     )
 }
 

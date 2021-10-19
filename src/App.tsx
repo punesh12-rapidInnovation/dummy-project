@@ -129,8 +129,9 @@ function App() {
         }
 
       </header>
-      <Chatui/>
-      <LiveChat walletAddress={walletAddress}
+      {/* <Chatui/> */}
+      <Chatui
+        walletAddress={walletAddress}
         connectWallet={connectWallet}
         setToggleModal={setToggleModal}
         toggleModal={toggleModal}
