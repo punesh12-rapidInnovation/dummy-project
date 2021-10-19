@@ -64,7 +64,9 @@ const LiveChat = (props: any) => {
             .catch(function (err) {
                 console.log(err);
             })
+
     }
+
 
     const handleInputMessage = (e: any) => {
         const { value } = e.target
@@ -95,12 +97,12 @@ const LiveChat = (props: any) => {
             <div className='input-message'>
                 <input
                     onChange={handleInputMessage}
-                    type="text" name="" id="" />
+                    type="text" name="" id="" value={inputMessage} />
                 <button
 
                     disabled={walletAddress === '' || inputMessage === ''}
                     // onClick={() => handleSendMessage()}
-                    onClick={() => sendTOAPI()}
+                    onClick={() => { sendTOAPI(); setinputMessage('') }}
                 >
                     <img src="https://img.icons8.com/external-prettycons-lineal-prettycons/49/000000/external-send-social-media-prettycons-lineal-prettycons.png" />
                 </button>
