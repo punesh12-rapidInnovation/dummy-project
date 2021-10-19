@@ -5,6 +5,7 @@ import threedot from './threedot.svg';
 
 import { io } from "socket.io-client";
 import axios from 'axios';
+import { PopupModal } from './PopupModal';
 
 
 
@@ -127,7 +128,14 @@ const Chatui = (props: any) => {
     const BASE_URL = 'https://diceroll.rapidinnovation.tech/api/message'
 
     useEffect(() => {
-        const socket = io('wss://diceroll.rapidinnovation.tech');
+        const socket = io('wss://diceroll.rapidinnovation.tech',
+            // {
+            //     withCredentials: true,
+            //     extraHeaders: {
+            //         "my-custom-header": "abcd"
+            //     }
+            // }
+        );
         try {
             socket.on('connection', () => {
                 // Replace event name with connection event name
@@ -161,7 +169,9 @@ const Chatui = (props: any) => {
             url: BASE_URL,
             headers: {
                 'content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Access-Control-Allow-Origin': '*',
+                "Access-Control-Allow-Headers": 'true'
+                //  "Origin, X-Requested-With, Content-Type, Accept"
             },
             data: data
         }
@@ -240,6 +250,28 @@ const Chatui = (props: any) => {
 
                 </ChatBox>
             </Box>
+
+            <PopupModal
+                style={{
+                    display: toggleModal ? "block" : "none"
+                }}
+            >
+                <div>
+                    <div>
+                        <input type="submit"
+                            value="Metamask"
+                            className="popup-button"
+                            onClick={() => { connectWallet(); setToggleModal(false) }}
+                        />
+                    </div>
+                </div>
+
+                <input
+                    onClick={() => setToggleModal(false)}
+                    className="close"
+                    type="button" value="Close"
+                />
+            </PopupModal>
         </GlobalChatSection >
     )
 }
