@@ -7,7 +7,7 @@ import { io } from "socket.io-client";
 import axios from 'axios';
 import { PopupModal } from './PopupModal';
 
-
+import './Livechat.css'
 
 
 const Box = styled.div`
@@ -35,7 +35,7 @@ background: rgba(0,0,0,1);
 background-image: url(${Chatsection});
 background-position: center;
 background-size: cover;
-height: 70vh;
+height: 90vh;
 width: 100%;
 display: flex;
 justify-content:center;
@@ -117,7 +117,7 @@ word-wrap: break-word;
 }
 `
 
-const Button = styled.div`
+const Button = styled.button`
 position: absolute;
 bottom: 10px;
 right: 15px;
@@ -197,8 +197,8 @@ const Chatui = (props: any) => {
             .catch(function (err) {
                 console.log(err);
             })
-        
-        
+
+
 
     }
 
@@ -238,7 +238,7 @@ const Chatui = (props: any) => {
         <GlobalChatSection>
             <Box style={{ height: '75%', width: '90%', maxWidth: '1100px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Box style={{ height: '75%', width: '45%', marginRight: '20px' }}></Box>
-                <ChatBox style={{ height: '75%', width: '45%',position:'relative' }}>
+                <ChatBox style={{ height: '75%', width: '45%', position: 'relative' }}>
 
 
                     <ChatTopdiv><div style={{ textAlign: 'left' }}> <h3 style={{ fontSize: '14px' }}>GLOBAL CHAT</h3>
@@ -256,10 +256,12 @@ const Chatui = (props: any) => {
                     </ChatMiddlediv>
                     <Input
                         onChange={handleInputMessage}
+                        value={inputMessage}
                         style={{ width: '100%', height: '15%' }} type="text" placeholder="Type message..." />
                     <Button
                         style={{ background: "green" }}
-                        onClick={() => { sendTOAPI(); setinputMessage('')  }}
+                        onClick={() => { sendTOAPI(); setinputMessage('') }}
+                        disabled={walletAddress === '' || inputMessage === ''}
                     >Send</Button>
 
 
@@ -285,6 +287,7 @@ const Chatui = (props: any) => {
                     onClick={() => setToggleModal(false)}
                     className="close"
                     type="button" value="Close"
+
                 />
             </PopupModal>
         </GlobalChatSection >
