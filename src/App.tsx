@@ -8,6 +8,7 @@ import detectEthereumProvider from '@metamask/detect-provider';
 
 import { relative } from 'path';
 import LiveChat from './Chat';
+import Chatui from './Chatui'
 
 const Button = styled.button`
   background: black;
@@ -139,7 +140,7 @@ function App() {
           />
         </PopupModal>
       </header>
-      <LiveChat />
+      <Chatui/>
     </div >
   );
 }
