@@ -126,27 +126,13 @@ function App() {
             >Connect</Button>
 
         }
-        <PopupModal
-          style={{
-            display: toggleModal ? "block" : "none"
-          }}
-        >
-          <div>
-            <div>
-              <Button
-                onClick={() => { connectWallet(); setToggleModal(false) }}
-              >Metamsk</Button>
-            </div>
-          </div>
 
-          <input
-            onClick={() => setToggleModal(false)}
-            className="close"
-            type="button" value="Close"
-          />
-        </PopupModal>
       </header>
-      <LiveChat walletAddress={walletAddress} />
+      <LiveChat walletAddress={walletAddress}
+        connectWallet={connectWallet}
+        setToggleModal={setToggleModal}
+        toggleModal={toggleModal}
+      />
     </div >
   );
 }

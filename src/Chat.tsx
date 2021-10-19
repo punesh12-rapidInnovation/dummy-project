@@ -3,10 +3,11 @@ import './Livechat.css'
 import { io } from "socket.io-client";
 
 import axios from "axios";
+import { PopupModal } from './PopupModal';
 
 const LiveChat = (props: any) => {
 
-    const { walletAddress } = props
+    const { walletAddress, connectWallet, setToggleModal, toggleModal } = props
 
     const [messages, setMessages] = useState<any>([])
 
@@ -104,6 +105,29 @@ const LiveChat = (props: any) => {
                     <img src="https://img.icons8.com/external-prettycons-lineal-prettycons/49/000000/external-send-social-media-prettycons-lineal-prettycons.png" />
                 </button>
             </div>
+
+
+            <PopupModal
+                style={{
+                    display: toggleModal ? "block" : "none"
+                }}
+            >
+                <div>
+                    <div>
+                        <input type="submit"
+                            value="Metamask"
+                            className="popup-button"
+                            onClick={() => { connectWallet(); setToggleModal(false) }}
+                        />
+                    </div>
+                </div>
+
+                <input
+                    onClick={() => setToggleModal(false)}
+                    className="close"
+                    type="button" value="Close"
+                />
+            </PopupModal>
         </div>
 
 
