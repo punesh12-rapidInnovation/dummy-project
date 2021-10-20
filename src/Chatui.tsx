@@ -6,16 +6,27 @@ import sendIcon from './send-icon.svg';
 
 import { io } from "socket.io-client";
 import axios from 'axios';
-import { PopupModal } from './PopupModal';
-
 import './Livechat.css'
 
 
-const Box = styled.div`
+ const Box = styled.div`
 background: linear-gradient(90deg, rgba(239, 8, 150, 0.1) -6.9%, rgba(112, 7, 255, 0.1) 55.31%, rgba(0, 200, 255, 0.1) 107.28%);
 box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 20px rgba(202, 26, 231, 0.9);
 border-radius: 20px;
 `
+
+const PopupModal = styled.button`
+height:50vh;
+width:50vh;
+background: lightgray;
+position:absolute;
+top:20;
+left:50;
+border-radius:20px;
+`;
+
+
+
 const ChatBox = styled.div`
 background: linear-gradient(90deg, rgba(239, 8, 150, 0.1) -6.9%, rgba(112, 7, 255, 0.1) 55.31%, rgba(0, 200, 255, 0.1) 107.28%);
 box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 20px rgba(202, 26, 231, 0.9);
@@ -52,6 +63,7 @@ padding-left: 20px;
 display: flex;
 justify-content: space-between;
 align-items: center;
+color: white;
 
 ::placeholder{
     color:white;
@@ -89,40 +101,47 @@ overflow:scroll;
 
 const Messagediv = styled.div`
 background: rgba(255, 255, 255, 0.23);
-border-radius: 0 10px 10px 10px;
-padding: 10px;
+border-radius: 10px;
+padding: 15px;
 display: flex;
-width: 73%;
-
+max-width: 73%;
+border-top-left-radius:0;
 margin: 10px 0;
 align-self: flex-start;
 text-align: left;
+word-break: break-all;
+
 
 `
 const Ownmsg = styled.div`
 background: linear-gradient(92.8deg, rgba(30, 232, 183, 0.8) 2.13%, rgba(172, 51, 191, 0.4) 102.29%);
-border-radius: 10px 10px 0 10px;
-padding: 10px;
+border-radius: 10px;
+border-bottom-right-radius:0;
+padding: 15px;
 display: flex;
-height: auto;
-width: 73%;
+max-width: 73%;
 margin: 10px 0;
 align-self: flex-end;
 text-align: left;
-word-wrap: break-word;
-
->*{
-    word-wrap: break-word;
-}
+word-break: break-all;
 `
-
+const InputParent = styled.div`
+width: 100%;
+height: 14%;
+position: relative;
+`
 const Button = styled.button`
-position: absolute;
-bottom: 10px;
-right: 15px;
-padding: 8px 10px;
-border-radius: 12px;
+background-image: url(${sendIcon});
+background-position: center;
+background-size: contain;
 cursor: pointer;
+border-radius: 12px;
+width: 40px;
+height: 40px;
+border: none;
+position: absolute;
+bottom: 14px;
+right: 12px;
 `
 
 
@@ -263,18 +282,19 @@ const Chatui = (props: any) => {
                     <ChatMiddlediv>
                         {renderchat()}
                     </ChatMiddlediv>
+                    <InputParent>
                     <Input
                         onChange={handleInputMessage}
                         value={inputMessage}
-                        style={{ width: '100%', height: '15%' }} type="text" placeholder="Type message..." />
+                        style={{ width: '100%', height: '100%' }} type="text" placeholder="Type message..." />
+                    
                     <Button
-                        style={{ background: ' #18DEAE', width: 'auto', height: 'auto', padding: '5px 10px', }}
                         onClick={() => { sendTOAPI() }}
                         disabled={walletAddress === '' || inputMessage === ''}
 
                     >
-                        <img src={sendIcon} alt="" />
                     </Button>
+                    </InputParent>
 
 
                 </ChatBox>
