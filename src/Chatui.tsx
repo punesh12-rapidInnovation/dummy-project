@@ -136,12 +136,18 @@ background-position: center;
 background-size: contain;
 cursor: pointer;
 border-radius: 12px;
-width: 40px;
-height: 40px;
+width: 35px;
+height: 35px;
 border: none;
 position: absolute;
-bottom: 14px;
+top: 50%;
 right: 12px;
+transform: translatey(-50%);
+
+
+:disabled{
+    display: none;
+}
 `
 
 
