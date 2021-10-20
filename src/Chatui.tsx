@@ -9,7 +9,7 @@ import axios from 'axios';
 import './Livechat.css'
 
 
- const Box = styled.div`
+const Box = styled.div`
 background: linear-gradient(90deg, rgba(239, 8, 150, 0.1) -6.9%, rgba(112, 7, 255, 0.1) 55.31%, rgba(0, 200, 255, 0.1) 107.28%);
 box-shadow: 0px 3px 5px rgba(66, 20, 74, 0.6), inset 0px 0px 20px rgba(202, 26, 231, 0.9);
 border-radius: 20px;
@@ -283,17 +283,17 @@ const Chatui = (props: any) => {
                         {renderchat()}
                     </ChatMiddlediv>
                     <InputParent>
-                    <Input
-                        onChange={handleInputMessage}
-                        value={inputMessage}
-                        style={{ width: '100%', height: '100%' }} type="text" placeholder="Type message..." />
-                    
-                    <Button
-                        onClick={() => { sendTOAPI() }}
-                        disabled={walletAddress === '' || inputMessage === ''}
+                        <Input
+                            onChange={handleInputMessage}
+                            value={inputMessage}
+                            style={{ width: '100%', height: '100%' }} type="text" placeholder="Type message..." />
 
-                    >
-                    </Button>
+                        <Button
+                            onClick={() => { sendTOAPI() }}
+                            disabled={walletAddress === '' || inputMessage.trim() === ''}
+
+                        >
+                        </Button>
                     </InputParent>
 
 
