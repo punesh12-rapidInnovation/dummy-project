@@ -271,7 +271,7 @@ const Chatui = (props: any) => {
                         value={inputMessage}
                         style={{ width: '100%', height: '15%' }} type="text" placeholder="Type message..." />
                     <Button
-                        style={{ background: ' #18DEAE', width: 'auto', height: 'auto', padding: '10px' }}
+                        style={{ background: ' #18DEAE', width: 'auto', height: 'auto', padding: '5px 10px', }}
                         onClick={() => { sendTOAPI() }}
                         disabled={walletAddress === '' || inputMessage === ''}
 
