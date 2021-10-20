@@ -89,7 +89,7 @@ overflow:scroll;
 
 const Messagediv = styled.div`
 background: rgba(255, 255, 255, 0.23);
-border-radius: 10px;
+border-radius: 0 10px 10px 10px;
 padding: 10px;
 display: flex;
 width: 73%;
@@ -101,7 +101,7 @@ text-align: left;
 `
 const Ownmsg = styled.div`
 background: linear-gradient(92.8deg, rgba(30, 232, 183, 0.8) 2.13%, rgba(172, 51, 191, 0.4) 102.29%);
-border-radius: 10px;
+border-radius: 10px 10px 0 10px;
 padding: 10px;
 display: flex;
 height: auto;
@@ -113,8 +113,6 @@ word-wrap: break-word;
 
 >*{
     word-wrap: break-word;
-
-
 }
 `
 
