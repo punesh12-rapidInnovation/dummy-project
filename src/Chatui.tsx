@@ -160,7 +160,6 @@ const Chatui = (props: any) => {
                 const updatedData = [...messages, data]
                 setMessages(updatedData)
 
-
             });
         } catch (err) {
             console.log('err', err);
@@ -197,12 +196,12 @@ const Chatui = (props: any) => {
             const config: any = {
                 method: 'post',
                 url: BASE_URL,
-                headers: {
-                    'content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*',
-                    "Access-Control-Allow-Headers": 'true'
-                    //  "Origin, X-Requested-With, Content-Type, Accept"
-                },
+                // headers: {
+                //     'content-Type': 'application/json',
+                //     'Access-Control-Allow-Origin': '*',
+                //     "Access-Control-Allow-Headers": 'true'
+                //     //  "Origin, X-Requested-With, Content-Type, Accept"
+                // },
                 data: data
             }
 

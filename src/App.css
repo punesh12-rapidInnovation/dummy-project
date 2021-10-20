@@ -14,7 +14,7 @@
 }
 
 .App-header {
-	background-color: #8998b8;
+	background: linear-gradient(to left, #ef0896 0%, #7007ff 50%, #00c8ff 100%);
 	/* min-height: 100vh; */
 	display: flex;
 	/* flex-direction: column; */
@@ -23,11 +23,9 @@
 	font-size: calc(10px + 2vmin);
 	color: white;
 }
-
 h6 {
 	line-height: 0;
 }
-
 .App-link {
 	color: #61dafb;
 }
