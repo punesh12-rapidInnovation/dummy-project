@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Chatsection from './Chatsection.png';
 import threedot from './threedot.svg';
+import sendIcon from './send-icon.svg';
 
 import { io } from "socket.io-client";
 import axios from 'axios';
@@ -144,9 +145,9 @@ const Chatui = (props: any) => {
     useEffect(() => {
         const socket = io('wss://diceroll.rapidinnovation.tech',
             // {
-            //     withCredentials: true,
             //     extraHeaders: {
-            //         "my-custom-header": "abcd"
+            //         'Access-Control-Allow-Origin': 'true',
+            //         "Access-Control-Allow-Headers": 'true'
             //     }
             // }
         );
@@ -172,36 +173,60 @@ const Chatui = (props: any) => {
         };
     }, [messages]);
 
+
+    // useEffect(() => {
+    //     window.addEventListener('keyup', (event) => {
+    //         if (event.code === '13') {
+    //             if (walletAddress !== '' && inputMessage !== '') {
+    //                 sendTOAPI()
+    //                 console.log('runnig');
+
+    //             }
+    //         }
+    //     });
+    // })
+
     const sendTOAPI = async () => {
+
         const data =
         {
             'username': walletAddress,
             'content': inputMessage
         };
-        const config: any = {
-            method: 'post',
-            url: BASE_URL,
-            headers: {
-                'content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                "Access-Control-Allow-Headers": 'true'
-                //  "Origin, X-Requested-With, Content-Type, Accept"
-            },
-            data: data
-        }
 
-        axios(config)
-            .then(function (res) {
-                console.log('response', res);
-            })
-            .catch(function (err) {
-                console.log(err);
-            })
+        try {
+
+            const config: any = {
+                method: 'post',
+                url: BASE_URL,
+                headers: {
+                    'content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                    "Access-Control-Allow-Headers": 'true'
+                    //  "Origin, X-Requested-With, Content-Type, Accept"
+                },
+                data: data
+            }
+
+            axios(config)
+                .then(function (res) {
+                    console.log('response', res);
+                })
+                .catch(function (err) {
+                    console.log(err);
+                })
+
+
+        } catch (error) {
+            console.log(error);
+        }
+        finally {
+            setinputMessage('')
+        }
 
 
 
     }
-
 
     const handleInputMessage = (e: any) => {
         const { value } = e.target
@@ -209,9 +234,9 @@ const Chatui = (props: any) => {
     }
 
     const renderchat = () => {
-        return messages.map((m: any) => (
+        return messages.map((m: any, index: any) => (
             m.username === walletAddress ?
-                <Ownmsg
+                <Ownmsg key={index}
                 >
                     <h1 style={{ fontSize: '11px' }}>
                         {m.content}
@@ -219,7 +244,7 @@ const Chatui = (props: any) => {
                 </Ownmsg>
 
                 :
-                <Messagediv>
+                <Messagediv key={index}>
                     <h1 style={{ fontSize: '11px' }}>
                         {m.content}
                     </h1>
@@ -229,11 +254,6 @@ const Chatui = (props: any) => {
         ))
     }
 
-
-
-
-
-    // const messages = ['Phantompain and is about bitcoin ,bitcoin cash,blackchain,blockchaininfo,blue', 'essentially a digital letter of transactions that is duplicated and distributed across the ocean', 'how abou this ', 'phantom pain and is aboyt bitcoin bitcoin cash bloack and blockchain info ,blue']
     return (
         <GlobalChatSection>
             <Box style={{ height: '75%', width: '90%', maxWidth: '1100px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -245,24 +265,19 @@ const Chatui = (props: any) => {
                         <h5 style={{ fontSize: '11px', color: '#18DEAE' }}>28 playing</h5></div> <img src={threedot} alt="" /></ChatTopdiv>
                     <ChatMiddlediv>
                         {renderchat()}
-
-                        {/* 
-                        <Messagediv><h1 style={{ fontSize: '11px' }}>essentially a digital letter of transactions that is duplicated and distributed across the ocean</h1></Messagediv>
-                        <Messagediv><h1 style={{ fontSize: '11px' }}>essentially a digital letter of transactions that is duplicated and distributed across the ocean</h1></Messagediv>
-                        <Ownmsg><h1 style={{ fontSize: '11px' }}>essentially a digital letter of transactions that is duplicated and distributed across the ocean</h1></Ownmsg>
-                        <Ownmsg><h1 style={{ fontSize: '11px' }}>essentially a digital letter of transactions that is duplicated and distributed across the ocean</h1></Ownmsg>
-                        <Messagediv><h1 style={{ fontSize: '11px' }}>essentially a digital letter of transactions that is duplicated and distributed across the ocean</h1></Messagediv> */}
-
                     </ChatMiddlediv>
                     <Input
                         onChange={handleInputMessage}
                         value={inputMessage}
                         style={{ width: '100%', height: '15%' }} type="text" placeholder="Type message..." />
                     <Button
-                        style={{ background: "green" }}
-                        onClick={() => { sendTOAPI(); setinputMessage('') }}
+                        style={{ background: ' #18DEAE', width: 'auto', height: 'auto', padding: '10px' }}
+                        onClick={() => { sendTOAPI() }}
                         disabled={walletAddress === '' || inputMessage === ''}
-                    >Send</Button>
+
+                    >
+                        <img src={sendIcon} alt="" />
+                    </Button>
 
 
                 </ChatBox>
